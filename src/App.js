@@ -1,26 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import LoginPage from './main-pages/LoginPage';
+import useFirebaseAuth from './custom-hooks/useFirbaseAuth';
+import { setUser } from './redux/actions';
+import { useSelector, useDispatch } from 'react-redux'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import { BrowserRouter, Route } from 'react-router-dom'
+import RegisterPage from './main-pages/RegisterPage';
+import PopUp from './ui/PopUp';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = props => {
+  const { user, authLoading, popup } = useSelector(state => state.global)
+  const dispatch = useDispatch()
+  const memoizedCallback = React.useCallback(
+    user => dispatch(setUser(user)),
+    [dispatch],
+  );
+  useFirebaseAuth(memoizedCallback)
+  if (authLoading) {
+    return <div>
+      Authenticating...
     </div>
+  }
+  return (
+    <BrowserRouter>
+      <PopUp message={popup.message} />
+      {user ? <div>
+        you are logged in!
+        <button onClick={e => {
+          firebase.auth().signOut()
+        }}>Logout</button>
+      </div> : <div>
+          <Route exact path='/' component={LoginPage} />
+          <Route exact path='/register' component={RegisterPage} />
+        </div>}
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default App

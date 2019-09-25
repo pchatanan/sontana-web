@@ -5,7 +5,6 @@ import 'firebase/auth'
 const useFirebaseAuth = (handleAuthChanged) => {
   React.useEffect(() => {
     return firebase.auth().onAuthStateChanged(user => {
-      console.log(user)
       handleAuthChanged(user)
     })
   }, [handleAuthChanged])

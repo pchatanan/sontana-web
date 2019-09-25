@@ -4,7 +4,8 @@ const ACTION_TYPES = {
   SET_DRAWER: 'SET_DRAWER',
   SET_USER: 'SET_USER',
   RESET_FORM: 'RESET_FORM',
-  SET_POPUP: 'SET_POPUP'
+  SET_POPUP: 'SET_POPUP',
+  DISMISS_POPUP: 'DISMISS_POPUP'
 }
 
 export const setText = (key, text) => {
@@ -48,6 +49,12 @@ export const setPopup = (popupType, message) => {
       popupType,
       message
     }
+  }
+}
+
+export const dismissPopup = () => {
+  return {
+    type: ACTION_TYPES.DISMISS_POPUP
   }
 }
 

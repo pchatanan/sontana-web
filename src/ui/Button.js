@@ -9,6 +9,7 @@ const Button = styled.button`
   background: linear-gradient(to right, #00d2ff, #3a7bd5);
   cursor: pointer;
   box-shadow: 0px 2px 5px 0px #3a7bd5;
+  box-sizing: border-box;
   ${props => props.secondary && `
     background: transparent;
     color: #3a7bd5;

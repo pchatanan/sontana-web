@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { setPopup } from '../redux/actions';
+import { dismissPopup } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux'
 import Button from './Button';
+import BlurDiv from './BlurDiv';
 
-const PopUpContainer = styled.div`
+const PopUpContainer = styled(BlurDiv)`
   position: fixed;
   left: 50%;
   bottom: 0;
@@ -12,10 +13,8 @@ const PopUpContainer = styled.div`
   transform-origin: bottom;
   opacity: ${props => props.show ? '1' : '0'};
   transition: transform 0.2s, opacity 0.2s;
-  background: transparent;
-  box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.4);
+  box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.2);
   border: none;
-  border-radius: 0.6em;
   margin-bottom: 1em;
   padding: 0.6em;
   width: 90vw;
@@ -23,7 +22,7 @@ const PopUpContainer = styled.div`
 `
 
 const MessageContainer = styled.div`
-  color: red;
+  color: white;
 `
 
 const CloseButton = styled(Button)`
@@ -32,13 +31,13 @@ const CloseButton = styled(Button)`
 `
 
 const PopUp = props => {
-  const { popup } = useSelector(state => state.global)
+  const { popup, showPopup } = useSelector(state => state.global)
   const dispatch = useDispatch()
-  return <PopUpContainer show={popup.popupType.length > 0}>
+  return <PopUpContainer show={showPopup}>
     <MessageContainer>
       {popup.message}
     </MessageContainer>
-    <CloseButton secondary type='button' onClick={e => { dispatch(setPopup('', popup.message)) }}>{'dismiss'}</CloseButton>
+    <CloseButton secondary type='button' onClick={e => { dispatch(dismissPopup()) }}>{'dismiss'}</CloseButton>
   </PopUpContainer>
 }
 

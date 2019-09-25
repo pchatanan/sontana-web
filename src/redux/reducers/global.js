@@ -7,7 +7,8 @@ const defaultState = {
   popup: {
     popupType: '',
     message: ''
-  }
+  },
+  showPopup: false
 }
 
 const global = (state = defaultState, action) => {
@@ -26,7 +27,13 @@ const global = (state = defaultState, action) => {
     case ACTION_TYPES.SET_POPUP:
       return {
         ...state,
-        popup: action.popup
+        popup: action.popup,
+        showPopup: true
+      }
+    case ACTION_TYPES.DISMISS_POPUP:
+      return {
+        ...state,
+        showPopup: false
       }
     default:
       return state

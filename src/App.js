@@ -8,6 +8,26 @@ import 'firebase/auth'
 import { BrowserRouter, Route } from 'react-router-dom'
 import RegisterPage from './main-pages/RegisterPage';
 import PopUp from './ui/PopUp';
+import FullscreenDiv from './ui/FullscreenDiv';
+import LoginBackground from './res/plouzane.jpg';
+import Desk from './res/desk.jpg'
+import styled from 'styled-components'
+import NavBar from './components/NavBar';
+import NavDrawer from './components/NavDrawer';
+
+const LoginPageBackground = styled(FullscreenDiv)`
+  background-image: url(${LoginBackground});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`
+
+const Background = styled(FullscreenDiv)`
+  background-image: url(${Desk});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`
 
 const App = props => {
   const { user, authLoading, popup } = useSelector(state => state.global)
@@ -25,15 +45,17 @@ const App = props => {
   return (
     <BrowserRouter>
       <PopUp message={popup.message} />
-      {user ? <div>
+      {user ? <Background>
+        <NavBar />
+        <NavDrawer />
         you are logged in!
         <button onClick={e => {
           firebase.auth().signOut()
         }}>Logout</button>
-      </div> : <div>
+      </Background> : <LoginPageBackground>
           <Route exact path='/' component={LoginPage} />
           <Route exact path='/register' component={RegisterPage} />
-        </div>}
+        </LoginPageBackground>}
     </BrowserRouter>
   );
 }

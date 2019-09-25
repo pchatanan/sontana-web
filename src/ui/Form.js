@@ -11,7 +11,7 @@ const FormItemContainer = styled.div`
 
 const Form = props => {
   const { children, ...otherProps } = props
-  return <FormContainer {...otherProps}>
+  return  <FormContainer {...otherProps}>
     {children.map((child, index) => {
       return <FormItemContainer key={index}>
         {child}

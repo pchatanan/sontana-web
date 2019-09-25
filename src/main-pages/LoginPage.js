@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { Link } from 'react-router-dom'
-import FormError from '../ui/FormError';
+import BlurDiv from '../ui/BlurDiv';
 
 const LoginPage = props => {
   const { email, password } = useSelector(state => state.loginPage)
@@ -19,24 +19,26 @@ const LoginPage = props => {
   return <FullscreenDiv>
     <CenterContainer>
       <ContentWidth>
-        <Form onSubmit={e => {
-          setSubmitted(true)
-          firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(userCredential => {
-              dispatch(setText('password', ''))
-              setSubmitted(false)
-            })
-            .catch(error => {
-              dispatch(setPopup('error', error.message))
-              setSubmitted(false)
-            })
-          e.preventDefault()
-        }}>
-          <TextInput label='email' value={email} onChange={text => { dispatch(setText('email', text)) }} />
-          <TextInput label='password' value={password} onChange={text => { dispatch(setText('password', text)) }} type='password' />
-          <Button disabled={isSubmitted} type='submit'>{isSubmitted ? 'Logging in...' : 'Login'}</Button>
-          <Link to='/register'><Button secondary type='button'>{'Register new user'}</Button></Link>
-        </Form>
+        <BlurDiv>
+          <Form onSubmit={e => {
+            setSubmitted(true)
+            firebase.auth().signInWithEmailAndPassword(email, password)
+              .then(userCredential => {
+                dispatch(setText('password', ''))
+                setSubmitted(false)
+              })
+              .catch(error => {
+                dispatch(setPopup('error', error.message))
+                setSubmitted(false)
+              })
+            e.preventDefault()
+          }}>
+            <TextInput label='email' value={email} onChange={text => { dispatch(setText('email', text)) }} />
+            <TextInput label='password' value={password} onChange={text => { dispatch(setText('password', text)) }} type='password' />
+            <Button disabled={isSubmitted} type='submit'>{isSubmitted ? 'Logging in...' : 'Login'}</Button>
+            <Link to='/register'><Button secondary type='button'>{'Register new user'}</Button></Link>
+          </Form>
+        </BlurDiv>
       </ContentWidth>
     </CenterContainer>
   </FullscreenDiv>

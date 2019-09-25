@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { Link } from 'react-router-dom'
+import BlurDiv from '../ui/BlurDiv';
 
 const validateRegister = (email, password, confirm_password) => {
   var error = null
@@ -26,37 +27,39 @@ const RegisterPage = props => {
   return <FullscreenDiv>
     <CenterContainer>
       <ContentWidth>
-        <Form onSubmit={e => {
-          setSubmitted(true)
-          const errorMessage = validateRegister(email, password, confirm_password)
-          if (!errorMessage) {
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-              .then(userCredential => {
-                dispatch(resetForm())
-                setSubmitted(false)
-              })
-              .catch(error => {
-                dispatch(setPopup('error', error.message))
-                setSubmitted(false)
-              })
-          }
-          else {
-            setSubmitted(false)
-            dispatch(setPopup('error', errorMessage))
-          }
-          e.preventDefault()
-        }}>
-          <TextInput label='email' value={email} onChange={text => { dispatch(setText('email', text)) }} />
-          <TextInput label='password' value={password} onChange={text => { dispatch(setText('password', text)) }} type='password' />
-          <TextInput label='confirm password' value={confirm_password} onChange={text => { dispatch(setText('confirm_password', text)) }} type='password' />
-          <div>
-            <p>
+        <BlurDiv>
+          <Form onSubmit={e => {
+            setSubmitted(true)
+            const errorMessage = validateRegister(email, password, confirm_password)
+            if (!errorMessage) {
+              firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                  dispatch(resetForm())
+                  setSubmitted(false)
+                })
+                .catch(error => {
+                  dispatch(setPopup('error', error.message))
+                  setSubmitted(false)
+                })
+            }
+            else {
+              setSubmitted(false)
+              dispatch(setPopup('error', errorMessage))
+            }
+            e.preventDefault()
+          }}>
+            <TextInput label='email' value={email} onChange={text => { dispatch(setText('email', text)) }} />
+            <TextInput label='password' value={password} onChange={text => { dispatch(setText('password', text)) }} type='password' />
+            <TextInput label='confirm password' value={confirm_password} onChange={text => { dispatch(setText('confirm_password', text)) }} type='password' />
+            <div>
+              <p>
 
-            </p>
-          </div>
-          <Button disabled={isSubmitted} type='submit'>{isSubmitted ? 'Registering...' : 'Register'}</Button>
-          <Link to='/'><Button secondary type='button'>Already have an account</Button></Link>
-        </Form>
+              </p>
+            </div>
+            <Button disabled={isSubmitted} type='submit'>{isSubmitted ? 'Registering...' : 'Register'}</Button>
+            <Link to='/'><Button secondary type='button'>Already have an account</Button></Link>
+          </Form>
+        </BlurDiv>
       </ContentWidth>
     </CenterContainer>
   </FullscreenDiv>

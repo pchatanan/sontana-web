@@ -14,6 +14,7 @@ import Desk from './res/desk.jpg'
 import styled from 'styled-components'
 import NavBar from './components/NavBar';
 import NavDrawer from './components/NavDrawer';
+import HomePage from './main-pages/HomePage';
 
 const LoginPageBackground = styled(FullscreenDiv)`
   background-image: url(${LoginBackground});
@@ -47,11 +48,13 @@ const App = props => {
       <PopUp message={popup.message} />
       {user ? <Background>
         <NavBar />
-        <NavDrawer />
+
         you are logged in!
         <button onClick={e => {
           firebase.auth().signOut()
         }}>Logout</button>
+        <Route exact path='/' component={HomePage} />
+        <NavDrawer />
       </Background> : <LoginPageBackground>
           <Route exact path='/' component={LoginPage} />
           <Route exact path='/register' component={RegisterPage} />

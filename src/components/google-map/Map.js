@@ -27,7 +27,7 @@ const Map = ({ id, options, onMapLoad }) => {
 
 
 
-  return <div style={{ width: 500, height: 500 }} id={id} />
+  return <div style={{ width: '100%', height: '100%' }} id={id} />
 }
 
 export default Map

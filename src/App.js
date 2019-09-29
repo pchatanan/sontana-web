@@ -3,7 +3,6 @@ import LoginPage from './main-pages/LoginPage';
 import useFirebaseAuth from './custom-hooks/useFirbaseAuth';
 import { setUser } from './redux/actions';
 import { useSelector, useDispatch } from 'react-redux'
-import firebase from 'firebase/app'
 import 'firebase/auth'
 import { BrowserRouter, Route } from 'react-router-dom'
 import RegisterPage from './main-pages/RegisterPage';
@@ -15,6 +14,9 @@ import styled from 'styled-components'
 import NavBar from './components/NavBar';
 import NavDrawer from './components/NavDrawer';
 import HomePage from './main-pages/HomePage';
+import Authenticating from './ui/Authenticating';
+import CenterContainer from './ui/CenterContainer';
+import ContentContainer from './ui/ContentContainer';
 
 const LoginPageBackground = styled(FullscreenDiv)`
   background-image: url(${LoginBackground});
@@ -39,21 +41,21 @@ const App = props => {
   );
   useFirebaseAuth(memoizedCallback)
   if (authLoading) {
-    return <div>
-      Authenticating...
-    </div>
+    return <FullscreenDiv>
+      <CenterContainer>
+        <Authenticating />
+      </CenterContainer>
+    </FullscreenDiv>
   }
   return (
     <BrowserRouter>
       <PopUp message={popup.message} />
       {user ? <Background>
         <NavBar />
+        <ContentContainer>
+          <Route exact path='/' component={HomePage} />
+        </ContentContainer>
 
-        you are logged in!
-        <button onClick={e => {
-          firebase.auth().signOut()
-        }}>Logout</button>
-        <Route exact path='/' component={HomePage} />
         <NavDrawer />
       </Background> : <LoginPageBackground>
           <Route exact path='/' component={LoginPage} />

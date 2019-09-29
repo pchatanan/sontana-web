@@ -13,6 +13,7 @@ const FullScreen = styled(BlurDiv)`
   visibility: ${props => props.show ? 'visible' : 'hidden'};
   opacity: ${props => props.show ? '1' : '0'};
   transition: 0.2s;
+  z-index: 10;
 `
 
 const NavDrawerContainer = styled.div`

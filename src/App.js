@@ -1,8 +1,7 @@
 import React from 'react';
 import LoginPage from './main-pages/LoginPage';
 import useFirebaseAuth from './custom-hooks/useFirbaseAuth';
-import { setUser } from './redux/actions';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import 'firebase/auth'
 import { BrowserRouter, Route } from 'react-router-dom'
 import RegisterPage from './main-pages/RegisterPage';
@@ -17,6 +16,7 @@ import HomePage from './main-pages/HomePage';
 import Authenticating from './ui/Authenticating';
 import CenterContainer from './ui/CenterContainer';
 import ContentContainer from './ui/ContentContainer';
+import AddClassPage from './main-pages/AddClassPage';
 
 const LoginPageBackground = styled(FullscreenDiv)`
   background-image: url(${LoginBackground});
@@ -34,12 +34,7 @@ const Background = styled(FullscreenDiv)`
 
 const App = props => {
   const { user, authLoading, popup } = useSelector(state => state.global)
-  const dispatch = useDispatch()
-  const memoizedCallback = React.useCallback(
-    user => dispatch(setUser(user)),
-    [dispatch],
-  );
-  useFirebaseAuth(memoizedCallback)
+  useFirebaseAuth()
   if (authLoading) {
     return <FullscreenDiv>
       <CenterContainer>
@@ -54,12 +49,12 @@ const App = props => {
         <NavBar />
         <ContentContainer>
           <Route exact path='/' component={HomePage} />
+          <Route exact path='/add_classes' component={AddClassPage} />
         </ContentContainer>
-
         <NavDrawer />
       </Background> : <LoginPageBackground>
-          <Route exact path='/' component={LoginPage} />
           <Route exact path='/register' component={RegisterPage} />
+          <Route exact component={LoginPage} />
         </LoginPageBackground>}
     </BrowserRouter>
   );

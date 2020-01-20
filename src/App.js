@@ -3,7 +3,7 @@ import LoginPage from './main-pages/LoginPage';
 import useFirebaseAuth from './custom-hooks/useFirbaseAuth';
 import { useSelector } from 'react-redux'
 import 'firebase/auth'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import RegisterPage from './main-pages/RegisterPage';
 import PopUp from './ui/PopUp';
 import FullscreenDiv from './ui/FullscreenDiv';
@@ -53,8 +53,10 @@ const App = props => {
         </ContentContainer>
         <NavDrawer />
       </Background> : <LoginPageBackground>
-          <Route exact path='/register' component={RegisterPage} />
-          <Route exact component={LoginPage} />
+          <Switch>
+            <Route exact path='/register' component={RegisterPage} />
+            <Route exact component={LoginPage} />
+          </Switch>
         </LoginPageBackground>}
     </BrowserRouter>
   );

@@ -17,6 +17,7 @@ import Authenticating from './ui/Authenticating';
 import CenterContainer from './ui/CenterContainer';
 import ContentContainer from './ui/ContentContainer';
 import AddClassPage from './main-pages/AddClassPage';
+import EmailNotVerifiedPage from './main-pages/EmailNotVerifiedPage';
 
 const LoginPageBackground = styled(FullscreenDiv)`
   background-image: url(${LoginBackground});
@@ -45,14 +46,14 @@ const App = props => {
   return (
     <BrowserRouter>
       <PopUp message={popup.message} />
-      {user ? <Background>
+      {user ? (user.emailVerified ? <Background>
         <NavBar />
         <ContentContainer>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/add_classes' component={AddClassPage} />
         </ContentContainer>
         <NavDrawer />
-      </Background> : <LoginPageBackground>
+      </Background> : <EmailNotVerifiedPage />) : <LoginPageBackground>
           <Switch>
             <Route exact path='/register' component={RegisterPage} />
             <Route exact component={LoginPage} />

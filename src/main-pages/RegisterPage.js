@@ -51,11 +51,6 @@ const RegisterPage = props => {
             <TextInput label='email' value={email} onChange={text => { dispatch(setText('email', text)) }} />
             <TextInput label='password' value={password} onChange={text => { dispatch(setText('password', text)) }} type='password' />
             <TextInput label='confirm password' value={confirm_password} onChange={text => { dispatch(setText('confirm_password', text)) }} type='password' />
-            <div>
-              <p>
-
-              </p>
-            </div>
             <Button disabled={isSubmitted} type='submit'>{isSubmitted ? 'Registering...' : 'Register'}</Button>
             <Link to='/'><Button secondary type='button'>Already have an account</Button></Link>
           </Form>

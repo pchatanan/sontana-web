@@ -11,7 +11,7 @@ import { setPopup } from '../redux/actions';
 const CountDown = props => {
   const [currentCount, setCurrentCount] = React.useState(props.count || 0)
   React.useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       console.log('execute interval')
       console.log(currentCount)
       if (currentCount >= 0) {
@@ -90,6 +90,8 @@ const EmailNotVerifiedPage = props => {
         return <div>Sending</div>
       case 'SENT':
         return <div>Email Sent</div>
+      default:
+        return <div></div>
     }
   }
 

@@ -22,37 +22,34 @@ const validateRegister = (email, password, confirm_password) => {
 
 const RegisterPage = props => {
   const { email, password, confirm_password } = useSelector(state => state.registerPage)
-  const [isSubmitted, setSubmitted] = React.useState(false)
   const dispatch = useDispatch()
   return <FullscreenDiv>
     <CenterContainer>
       <ContentWidth>
         <BlurDiv>
-          <Form onSubmit={e => {
-            setSubmitted(true)
+          <Form onSubmit={setSubmitting => {
             const errorMessage = validateRegister(email, password, confirm_password)
             if (!errorMessage) {
               firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(userCredential => {
                   dispatch(resetForm())
-                  setSubmitted(false)
+                  setSubmitting(false)
                 })
                 .catch(error => {
                   dispatch(setPopup('error', error.message))
-                  setSubmitted(false)
+                  setSubmitting(false)
                 })
             }
             else {
-              setSubmitted(false)
+              setSubmitting(false)
               dispatch(setPopup('error', errorMessage))
             }
-            e.preventDefault()
           }}>
             <TextInput label='email' value={email} onChange={text => { dispatch(setText('email', text)) }} />
             <TextInput label='password' value={password} onChange={text => { dispatch(setText('password', text)) }} type='password' />
             <TextInput label='confirm password' value={confirm_password} onChange={text => { dispatch(setText('confirm_password', text)) }} type='password' />
-            <Button disabled={isSubmitted} type='submit'>{isSubmitted ? 'Registering...' : 'Register'}</Button>
-            <Link to='/'><Button secondary type='button'>Already have an account</Button></Link>
+            <Button type='submit' text='Register' disabledText='Registering...' />
+            <Link to='/'><Button secondary type='button' text='Already have an account' /></Link>
           </Form>
         </BlurDiv>
       </ContentWidth>

@@ -13,6 +13,7 @@ export const useGoogleAPI = onScriptLoad => React.useEffect(() => {
       onScriptLoad()
     })
   } else {
+    console.log('Alr loaded')
     onScriptLoad()
   }
 }, [onScriptLoad])

@@ -1,6 +1,7 @@
+import React from 'react'
 import styled from 'styled-components'
 
-const Button = styled.button`
+const StyledButton = styled.button`
   padding: 0.6em;
   border-radius: 0.3em;
   border: none;
@@ -22,5 +23,9 @@ const Button = styled.button`
     box-shadow: none;
   `}
 `
+
+const Button = ({ text, disabledText, submitting, ...otherProps }) => {
+  return <StyledButton disabled={submitting} {...otherProps}>{submitting ? disabledText : text}</StyledButton >
+}
 
 export default Button

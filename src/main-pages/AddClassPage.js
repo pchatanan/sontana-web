@@ -1,9 +1,8 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
-import { GeoCollectionReference, GeoFirestore, GeoQuery, GeoQuerySnapshot } from 'geofirestore';
-import { useDispatch, useSelector } from 'react-redux'
-import { setText } from '../redux/actions';
+import { GeoFirestore } from 'geofirestore';
+import { useSelector } from 'react-redux'
 import CenterContainer from '../ui/CenterContainer';
 import Form from '../ui/Form';
 import ContentWidth from '../ui/ContentWidth';
@@ -13,7 +12,7 @@ import Input from '../components/form-items/Input';
 
 const AddClassPage = props => {
     const [place, setPlace] = React.useState()
-    const { className } = useSelector(state => state.createClassPage)
+    const [className, setClassName] = React.useState('')
     const { user } = useSelector(state => state.global)
     const onLoad = React.useCallback(autocomplete => {
         autocomplete.addListener('place_changed', () => {
@@ -21,7 +20,7 @@ const AddClassPage = props => {
         })
         console.log('loaded')
     }, [])
-    const onFormSubmit = React.useCallback(e => {
+    const onFormSubmit = React.useCallback(setSubmitting => {
         const firestore = firebase.firestore();
         const geofirestore = new GeoFirestore(firestore);
         const geocollection = geofirestore.collection('classes');
@@ -31,20 +30,23 @@ const AddClassPage = props => {
             name: className,
             owner: user.uid,
             coordinates: new firebase.firestore.GeoPoint(lat, lng)
+        }).then((geoDocumentRef) => {
+            setSubmitting(false)
+            props.history.push('/myclasses')
         })
-        e.preventDefault()
-    }, [className, user.uid, place])
-    const dispatch = useDispatch()
+            .catch(reason => {
+                console.log(reason)
+                setSubmitting(false)
+            })
+    }, [className, user.uid, place, props.history])
     return <CenterContainer>
         <ContentWidth>
             <Form onSubmit={onFormSubmit}>
-                <div>
-                    <Input label='Class name' value={className} onChange={newClassName => { dispatch(setText('className', newClassName)) }} />
-                </div>
+                <Input label='Class name' value={className} onChange={newClassName => { setClassName(newClassName) }} />
                 <PlaceAutoComplete options={{
                     componentRestrictions: { country: 'th' }
                 }} onLoad={onLoad} />
-                <Button type='submit'>Add Class</Button>
+                <Button type='submit' text='Add Class' disabledText='Uploading class...' />
             </Form>
         </ContentWidth>
     </CenterContainer>

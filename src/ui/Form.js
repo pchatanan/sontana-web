@@ -10,11 +10,16 @@ const FormItemContainer = styled.div`
 `
 
 const Form = props => {
-  const { children, ...otherProps } = props
-  return  <FormContainer {...otherProps}>
+  const [submitting, setSubmitting] = React.useState(false)
+  const { children, onSubmit, ...otherProps } = props
+  return <FormContainer {...otherProps} onSubmit={e => {
+    setSubmitting(true)
+    e.preventDefault()
+    onSubmit(setSubmitting)
+  }} >
     {children.map((child, index) => {
       return <FormItemContainer key={index}>
-        {child}
+        {React.cloneElement(child, { submitting })}
       </FormItemContainer>
     })}
   </FormContainer>

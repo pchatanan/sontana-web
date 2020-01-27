@@ -14,30 +14,27 @@ import BlurDiv from '../ui/BlurDiv';
 
 const LoginPage = props => {
   const { email, password } = useSelector(state => state.loginPage)
-  const [isSubmitted, setSubmitted] = React.useState(false)
   const dispatch = useDispatch()
   return <FullscreenDiv>
     <CenterContainer>
       <ContentWidth>
         <BlurDiv>
-          <Form onSubmit={e => {
-            setSubmitted(true)
+          <Form onSubmit={setSubmitting => {
             firebase.auth().signInWithEmailAndPassword(email, password)
               .then(userCredential => {
                 dispatch(dismissPopup())
                 dispatch(setText('password', ''))
-                setSubmitted(false)
+                setSubmitting(false)
               })
               .catch(error => {
                 dispatch(setPopup('error', error.message))
-                setSubmitted(false)
+                setSubmitting(false)
               })
-            e.preventDefault()
           }}>
             <TextInput label='email' value={email} onChange={text => { dispatch(setText('email', text)) }} />
             <TextInput label='password' value={password} onChange={text => { dispatch(setText('password', text)) }} type='password' />
-            <Button disabled={isSubmitted} type='submit'>{isSubmitted ? 'Logging in...' : 'Login'}</Button>
-            <Link to='/register'><Button secondary type='button'>{'Register new user'}</Button></Link>
+            <Button type='submit' text='Log in' disabledText='Logging in ...' />
+            <Link to='/register'><Button secondary type='button' text='Register new user' /></Link>
           </Form>
         </BlurDiv>
       </ContentWidth>

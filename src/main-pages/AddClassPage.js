@@ -1,4 +1,7 @@
-import React from 'react'
+import React from 'react';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import { GeoCollectionReference, GeoFirestore, GeoQuery, GeoQuerySnapshot } from 'geofirestore';
 import { useDispatch, useSelector } from 'react-redux'
 import { setText } from '../redux/actions';
 import CenterContainer from '../ui/CenterContainer';
@@ -9,19 +12,28 @@ import Button from '../ui/Button';
 import Input from '../components/form-items/Input';
 
 const AddClassPage = props => {
+    const [place, setPlace] = React.useState()
     const { className } = useSelector(state => state.createClassPage)
-    const autocompleteRef = React.useRef()
+    const { user } = useSelector(state => state.global)
     const onLoad = React.useCallback(autocomplete => {
         autocomplete.addListener('place_changed', () => {
-            console.log(autocomplete.getPlace())
+            setPlace(autocomplete.getPlace())
         })
-        autocompleteRef.current = autocomplete
         console.log('loaded')
     }, [])
     const onFormSubmit = React.useCallback(e => {
-        console.log(autocompleteRef.current.getPlace())
+        const firestore = firebase.firestore();
+        const geofirestore = new GeoFirestore(firestore);
+        const geocollection = geofirestore.collection('classes');
+        const lat = place.geometry.location.lat()
+        const lng = place.geometry.location.lng()
+        geocollection.add({
+            name: className,
+            owner: user.uid,
+            coordinates: new firebase.firestore.GeoPoint(lat, lng)
+        })
         e.preventDefault()
-    }, [])
+    }, [className, user.uid, place])
     const dispatch = useDispatch()
     return <CenterContainer>
         <ContentWidth>

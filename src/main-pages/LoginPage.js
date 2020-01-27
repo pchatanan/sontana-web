@@ -1,5 +1,5 @@
 import React from 'react'
-import { setText, setPopup } from '../redux/actions';
+import { setText, setPopup, dismissPopup } from '../redux/actions';
 import Form from '../ui/Form';
 import FullscreenDiv from '../ui/FullscreenDiv';
 import CenterContainer from '../ui/CenterContainer';
@@ -24,6 +24,7 @@ const LoginPage = props => {
             setSubmitted(true)
             firebase.auth().signInWithEmailAndPassword(email, password)
               .then(userCredential => {
+                dispatch(dismissPopup())
                 dispatch(setText('password', ''))
                 setSubmitted(false)
               })

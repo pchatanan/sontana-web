@@ -1,5 +1,6 @@
 import React from 'react'
 import { useGoogleAPI } from '.'
+import Input from '../form-items/Input'
 
 const PlaceAutoComplete = ({ options, onLoad }) => {
   const inputRef = React.useRef()
@@ -12,12 +13,7 @@ const PlaceAutoComplete = ({ options, onLoad }) => {
   }, [onLoad, options])
   useGoogleAPI(onScriptLoad)
 
-  return <div>
-    <label>
-      <div>Type place name</div>
-      <input type='text' ref={inputRef} />
-    </label>
-  </div>
+  return <Input label='Type place name' type='text' ref={inputRef} />
 }
 
 export default PlaceAutoComplete

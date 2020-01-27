@@ -29,8 +29,7 @@ const Label = styled.label`
   display: inline-block;
 `
 
-const TextInput = props => {
-  const { label, value, onChange, ...otherProps } = props
+const TextInput = ({ label, value, onChange, ...otherProps }) => {
   const [focus, setFocus] = React.useState(false)
   const inputRef = React.useRef()
   React.useEffect(() => {

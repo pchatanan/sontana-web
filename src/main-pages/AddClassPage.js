@@ -6,6 +6,7 @@ import Form from '../ui/Form';
 import ContentWidth from '../ui/ContentWidth';
 import PlaceAutoComplete from '../components/google-map/PlaceAutoComplete';
 import Button from '../ui/Button';
+import Input from '../components/form-items/Input';
 
 const AddClassPage = props => {
     const { className } = useSelector(state => state.createClassPage)
@@ -26,10 +27,7 @@ const AddClassPage = props => {
         <ContentWidth>
             <Form onSubmit={onFormSubmit}>
                 <div>
-                    <label>
-                        <div>Class name</div>
-                        <input type='text' value={className} onChange={text => { dispatch(setText('className', text)) }} />
-                    </label>
+                    <Input label='Class name' value={className} onChange={newClassName => { dispatch(setText('className', newClassName)) }} />
                 </div>
                 <PlaceAutoComplete options={{
                     componentRestrictions: { country: 'th' }

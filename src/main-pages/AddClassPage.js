@@ -14,6 +14,7 @@ const AddClassPage = props => {
     const [place, setPlace] = React.useState()
     const [className, setClassName] = React.useState('')
     const { user } = useSelector(state => state.global)
+
     const onLoad = React.useCallback(autocomplete => {
         autocomplete.addListener('place_changed', () => {
             setPlace(autocomplete.getPlace())
@@ -39,13 +40,20 @@ const AddClassPage = props => {
                 setSubmitting(false)
             })
     }, [className, user.uid, place, props.history])
+
+    const onClassNameChange = React.useCallback(newClassName => { setClassName(newClassName) }, [setClassName])
+
+    const placeOptions = React.useMemo(() => {
+        return {
+            componentRestrictions: { country: 'th' }
+        }
+    }, [])
+
     return <CenterContainer>
         <ContentWidth>
             <Form onSubmit={onFormSubmit}>
-                <Input label='Class name' value={className} onChange={newClassName => { setClassName(newClassName) }} />
-                <PlaceAutoComplete options={{
-                    componentRestrictions: { country: 'th' }
-                }} onLoad={onLoad} />
+                <Input label='Class name' value={className} onChange={onClassNameChange} />
+                <PlaceAutoComplete options={placeOptions} onLoad={onLoad} />
                 <Button type='submit' text='Add Class' disabledText='Uploading class...' />
             </Form>
         </ContentWidth>

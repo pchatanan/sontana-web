@@ -18,6 +18,7 @@ import CenterContainer from './ui/CenterContainer';
 import ContentContainer from './ui/ContentContainer';
 import AddClassPage from './main-pages/AddClassPage';
 import EmailNotVerifiedPage from './main-pages/EmailNotVerifiedPage';
+import ClassPage from './main-pages/ClassPage';
 
 const LoginPageBackground = styled(FullscreenDiv)`
   background-image: url(${LoginBackground});
@@ -50,6 +51,7 @@ const App = props => {
         <NavBar />
         <ContentContainer>
           <Route exact path='/' component={HomePage} />
+          <Route exact path='/myclasses' component={ClassPage} />
           <Route exact path='/add_classes' component={AddClassPage} />
         </ContentContainer>
         <NavDrawer />

@@ -56,11 +56,19 @@ const NavDrawer = props => {
         </CenterContainer>
       </NavItem>
       <NavItem onClick={e => {
-        props.history.push('/myclasses')
+        props.history.push('/manage_classes')
         dispatch(setDrawer(false))
       }}>
         <CenterContainer>
-          My Classes
+          Manage Classes
+        </CenterContainer>
+      </NavItem>
+      <NavItem onClick={e => {
+        props.history.push('/attend_classes')
+        dispatch(setDrawer(false))
+      }}>
+        <CenterContainer>
+          Attend Classes
         </CenterContainer>
       </NavItem>
       <NavItem onClick={e => {

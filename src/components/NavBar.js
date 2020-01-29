@@ -45,7 +45,7 @@ const NavBar = props => {
       }} />
     </LeftMenuContainer>
     <RightMenuContainer>
-      <Route exact path='/myclasses' component={AddButton} />
+      <Route exact path='/manage_classes' component={AddButton} />
     </RightMenuContainer>
   </NavBarContainer>
 }

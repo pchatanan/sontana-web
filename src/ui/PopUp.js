@@ -19,6 +19,7 @@ const PopUpContainer = styled(BlurDiv)`
   padding: 0.6em;
   width: 90vw;
   max-width: 400px;
+  border-radius: 0.6em;
 `
 
 const MessageContainer = styled.div`
@@ -37,7 +38,7 @@ const PopUp = props => {
     <MessageContainer>
       {popup.message}
     </MessageContainer>
-    <CloseButton secondary type='button' onClick={e => { dispatch(dismissPopup()) }}>{'dismiss'}</CloseButton>
+    <CloseButton secondary type='button' onClick={e => { dispatch(dismissPopup()) }} text={'dismiss'} />
   </PopUpContainer>
 }
 

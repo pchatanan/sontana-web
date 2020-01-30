@@ -6,6 +6,10 @@ import { Route, Link } from 'react-router-dom'
 import IconButton from '../ui/IconButton'
 import AddIcon from '../ui/icons/AddIcon'
 import MenuIcon from '../ui/icons/MenuIcon'
+import OptionIcon from '../ui/icons/OptionIcon'
+import { showOptionMenu, hideOptionMenu } from '../redux/actions'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 const NavBarContainer = styled.div`
   position: relative;
@@ -36,6 +40,29 @@ const AddButton = props => {
   return <Link to='/add_classes'><IconButton Icon={AddIcon} /></Link>
 }
 
+const ManageButton = props => {
+  const dispatch = useDispatch()
+  const params = new URLSearchParams(props.location.search);
+  const classId = params.get('c');
+  const onOptionClick = React.useCallback(e => {
+    console.log('option button clicked')
+    dispatch(showOptionMenu([
+      {
+        label: 'Remove',
+        onClick: e => {
+          firebase.firestore().collection('classes').doc(classId).delete().then(() => {
+            dispatch(hideOptionMenu())
+            props.history.push('manage_classes')
+          })
+        }
+      },
+      {
+        label: 'Edit'
+      }]))
+  }, [dispatch, classId, props.history])
+  return <IconButton Icon={OptionIcon} onClick={onOptionClick} />
+}
+
 const NavBar = props => {
   const dispatch = useDispatch()
   return <NavBarContainer>
@@ -46,6 +73,7 @@ const NavBar = props => {
     </LeftMenuContainer>
     <RightMenuContainer>
       <Route exact path='/manage_classes' component={AddButton} />
+      <Route exact path='/class' component={ManageButton} />
     </RightMenuContainer>
   </NavBarContainer>
 }

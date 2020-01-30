@@ -33,7 +33,7 @@ const AddClassPage = props => {
             coordinates: new firebase.firestore.GeoPoint(lat, lng)
         }).then((geoDocumentRef) => {
             setSubmitting(false)
-            props.history.push('/myclasses')
+            props.history.push('/manage_classes')
         })
             .catch(reason => {
                 console.log(reason)

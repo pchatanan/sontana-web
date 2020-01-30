@@ -29,7 +29,7 @@ const Label = styled.label`
   display: inline-block;
 `
 
-const TextInput = ({ label, value, onChange, ...otherProps }) => {
+const TextInput = ({ submitting, label, value, onChange, ...otherProps }) => {
   const [focus, setFocus] = React.useState(false)
   const inputRef = React.useRef()
   React.useEffect(() => {
@@ -45,7 +45,7 @@ const TextInput = ({ label, value, onChange, ...otherProps }) => {
       show={focus || value.length > 0}
       onFocus={e => { setFocus(true) }}
       onBlur={e => { setFocus(false) }}
-      onChange={e => { onChange(e.target.value) }} {...otherProps} />
+      onChange={e => { onChange(e.target.value) }} disabled={submitting} {...otherProps} />
   </TextInputContainer>
 }
 

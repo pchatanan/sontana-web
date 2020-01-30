@@ -6,6 +6,7 @@ import 'firebase/auth'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import RegisterPage from './main-pages/RegisterPage';
 import PopUp from './ui/PopUp';
+import OptionMenu from './ui/OptionMenu'
 import FullscreenDiv from './ui/FullscreenDiv';
 import LoginBackground from './res/plouzane.jpg';
 import Desk from './res/desk.jpg'
@@ -19,6 +20,7 @@ import ContentContainer from './ui/ContentContainer';
 import AddClassPage from './main-pages/AddClassPage';
 import EmailNotVerifiedPage from './main-pages/EmailNotVerifiedPage';
 import ManageClassPage from './main-pages/ManageClassPage';
+import ClassPage from './main-pages/ClassPage';
 import usePosition from './custom-hooks/usePosition'
 
 const LoginPageBackground = styled(FullscreenDiv)`
@@ -48,6 +50,7 @@ const App = props => {
   }
   return (
     <BrowserRouter>
+      <OptionMenu />
       <PopUp message={popup.message} />
       {user ? (user.emailVerified ? <Background>
         <NavBar />
@@ -55,6 +58,7 @@ const App = props => {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/manage_classes' component={ManageClassPage} />
           <Route exact path='/add_classes' component={AddClassPage} />
+          <Route exact path='/class' component={ClassPage} />
         </ContentContainer>
         <NavDrawer />
       </Background> : <EmailNotVerifiedPage />) : <LoginPageBackground>

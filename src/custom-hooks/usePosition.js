@@ -9,6 +9,7 @@ const defaultSettings = {
 };
 
 const usePosition = (watch = false, settings = defaultSettings) => {
+  console.log('usePosition')
   const dispatch = useDispatch()
 
   const onChange = useCallback(({ coords, timestamp }) => {
@@ -27,7 +28,7 @@ const usePosition = (watch = false, settings = defaultSettings) => {
   }, [dispatch])
 
   const onError = useCallback((error) => {
-    // setError(error.message);
+    console.log(error.message);
     dispatch(setUserLoc({
       lat: 13.7563,
       lng: 100.5018,
@@ -38,6 +39,7 @@ const usePosition = (watch = false, settings = defaultSettings) => {
   useEffect(() => {
     const geo = navigator.geolocation;
     if (!geo) {
+      console.log('no geo')
       dispatch(setUserLoc({
         lat: 13.7563,
         lng: 100.5018,

@@ -6,7 +6,9 @@ const ACTION_TYPES = {
   RESET_FORM: 'RESET_FORM',
   SET_POPUP: 'SET_POPUP',
   DISMISS_POPUP: 'DISMISS_POPUP',
-  SET_USER_LOC: 'SET_USER_LOC'
+  SET_USER_LOC: 'SET_USER_LOC',
+  SHOW_OPTION_MENU: 'SHOW_OPTION_MENU',
+  HIDE_OPTION_MENU: 'HIDE_OPTION_MENU',
 }
 
 export const setText = (key, text) => {
@@ -60,12 +62,25 @@ export const dismissPopup = () => {
 }
 
 export const setUserLoc = ({ lat, lng, error }) => {
-  console.log(lat)
   return {
     type: ACTION_TYPES.SET_USER_LOC,
     userLoc: {
       lat, lng, error
     }
+  }
+}
+
+export const showOptionMenu = (optionMenu) => {
+  console.log(optionMenu)
+  return {
+    type: ACTION_TYPES.SHOW_OPTION_MENU,
+    optionMenu
+  }
+}
+
+export const hideOptionMenu = () => {
+  return {
+    type: ACTION_TYPES.HIDE_OPTION_MENU
   }
 }
 

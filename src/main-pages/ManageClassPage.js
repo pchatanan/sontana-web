@@ -40,19 +40,21 @@ const TopContainer = styled.div`
     flex: 1;
 `
 const BottomContainer = styled.div`
-    background: blue;
     flex: 1;
 `
 
 const ManageClassPage = props => {
-    const { user } = useSelector(state => state.global)
+    const { user, userLoc } = useSelector(state => state.global)
     const [classes, setClasses] = React.useState()
     React.useEffect(() => {
-        firebase.firestore().collection('classes').where('d.owner', '==', user.uid).onSnapshot(querySnapshot => {
+        return firebase.firestore().collection('classes').where('d.owner', '==', user.uid).onSnapshot(querySnapshot => {
             if (!querySnapshot.empty) {
                 var temp = []
                 querySnapshot.forEach(doc => {
-                    temp.push(doc.data())
+                    temp.push({
+                        docId: doc.id,
+                        docData: doc.data()
+                    })
                 })
                 setClasses(temp)
             }
@@ -64,8 +66,8 @@ const ManageClassPage = props => {
     }, [])
     const options = React.useMemo(() => {
         return {
-            center: { lat: -34.397, lng: 150.644 },
-            zoom: 8,
+            center: { lat: userLoc.lat, lng: userLoc.lng },
+            zoom: 18,
             zoomControl: false,
             mapTypeControl: false,
             scaleControl: false,
@@ -73,21 +75,34 @@ const ManageClassPage = props => {
             rotateControl: false,
             fullscreenControl: false
         }
-    }, [])
-    if (!classes) {
-        return <div>Loading...</div>
-    }
-    if (classes.length === 0) {
-        return <div>No class</div>
-    }
+    }, [userLoc.lat, userLoc.lng])
+
+    const onCardClick = React.useCallback(e => {
+        // props.history.push('classes')
+        const classIndex = e.target.getAttribute('value')
+        const classId = classes[classIndex].docId
+        props.history.push(`class?c=${classId}`)
+    }, [classes, props.history])
+
+    const renderCard = React.useCallback((myClass, index) => {
+        return <Card key={index} value={index} onClick={onCardClick}>
+            {myClass.docData.d.name}
+        </Card>
+    }, [onCardClick])
+
+    const renderClasses = React.useMemo(() => {
+        if (!classes) {
+            return <div>Loading...</div>
+        }
+        if (classes.length === 0) {
+            return <div>No class</div>
+        }
+        return classes.map(renderCard)
+    }, [classes, renderCard])
     return <Container>
         <ContentWrapper>
             <TopContainer>
-                {classes.map((myClass, index) => {
-                    return <Card key={index}>
-                        {myClass.d.name}
-                    </Card>
-                })}
+                {renderClasses}
             </TopContainer>
             <BottomContainer>
                 <Map id='GOOGLE_MAP_HOME_PAGE' options={options} onMapLoad={onMapLoad} />

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 
 const HomePage = props => {
   const { userLoc } = useSelector(state => state.global)
-  console.log(userLoc)
   const onMapLoad = React.useCallback(map => {
     console.log('map loaded')
   }, [])

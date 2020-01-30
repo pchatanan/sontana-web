@@ -8,7 +8,12 @@ const defaultState = {
     popupType: '',
     message: ''
   },
-  showPopup: false
+  showPopup: false,
+  userLoc: {
+    lat: 13.7563,
+    lng: 100.5018,
+    error: null
+  }
 }
 
 const global = (state = defaultState, action) => {
@@ -34,6 +39,12 @@ const global = (state = defaultState, action) => {
       return {
         ...state,
         showPopup: false
+      }
+    case ACTION_TYPES.SET_USER_LOC:
+      console.log(action)
+      return {
+        ...state,
+        userLoc: action.userLoc
       }
     default:
       return state

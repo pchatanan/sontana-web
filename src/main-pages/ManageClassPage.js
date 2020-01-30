@@ -13,6 +13,16 @@ const Card = styled.div`
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.4);
 `
 
+const ContentWrapper = styled.div`
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+`
+
 const Container = styled.div`
   position: absolute;
   left: 50%;
@@ -20,25 +30,18 @@ const Container = styled.div`
   height: 100%;
 `
 
-const ContentWidth = styled.div`
-  width: 100vw;
-  height: 100%;
-  max-width: ${props => props.width || '400px'};
-`
-
 const TopContainer = styled.div`
     display: flex;
     flex-direction: column;
-    height: 50%;
-    background: red;
+    background: lightgrey;
     overflow: auto;
     padding: 7px;
     box-sizing: border-box;
+    flex: 1;
 `
 const BottomContainer = styled.div`
-    height: 50%;
     background: blue;
-
+    flex: 1;
 `
 
 const ManageClassPage = props => {
@@ -78,7 +81,7 @@ const ManageClassPage = props => {
         return <div>No class</div>
     }
     return <Container>
-        <ContentWidth width='800px'>
+        <ContentWrapper>
             <TopContainer>
                 {classes.map((myClass, index) => {
                     return <Card key={index}>
@@ -89,7 +92,7 @@ const ManageClassPage = props => {
             <BottomContainer>
                 <Map id='GOOGLE_MAP_HOME_PAGE' options={options} onMapLoad={onMapLoad} />
             </BottomContainer>
-        </ContentWidth>
+        </ContentWrapper>
     </Container>
 }
 

@@ -5,7 +5,8 @@ const ACTION_TYPES = {
   SET_USER: 'SET_USER',
   RESET_FORM: 'RESET_FORM',
   SET_POPUP: 'SET_POPUP',
-  DISMISS_POPUP: 'DISMISS_POPUP'
+  DISMISS_POPUP: 'DISMISS_POPUP',
+  SET_USER_LOC: 'SET_USER_LOC'
 }
 
 export const setText = (key, text) => {
@@ -55,6 +56,16 @@ export const setPopup = (popupType, message) => {
 export const dismissPopup = () => {
   return {
     type: ACTION_TYPES.DISMISS_POPUP
+  }
+}
+
+export const setUserLoc = ({ lat, lng, error }) => {
+  console.log(lat)
+  return {
+    type: ACTION_TYPES.SET_USER_LOC,
+    userLoc: {
+      lat, lng, error
+    }
   }
 }
 

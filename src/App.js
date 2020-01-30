@@ -19,6 +19,7 @@ import ContentContainer from './ui/ContentContainer';
 import AddClassPage from './main-pages/AddClassPage';
 import EmailNotVerifiedPage from './main-pages/EmailNotVerifiedPage';
 import ManageClassPage from './main-pages/ManageClassPage';
+import usePosition from './custom-hooks/usePosition'
 
 const LoginPageBackground = styled(FullscreenDiv)`
   background-image: url(${LoginBackground});
@@ -36,6 +37,7 @@ const Background = styled(FullscreenDiv)`
 
 const App = props => {
   const { user, authLoading, popup } = useSelector(state => state.global)
+  usePosition()
   useFirebaseAuth()
   if (authLoading) {
     return <FullscreenDiv>

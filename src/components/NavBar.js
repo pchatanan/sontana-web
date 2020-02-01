@@ -58,6 +58,9 @@ const ManageButton = props => {
       },
       {
         label: 'Edit'
+      },
+      {
+        label: 'Share'
       }]))
   }, [dispatch, classId, props.history])
   return <IconButton Icon={OptionIcon} onClick={onOptionClick} />

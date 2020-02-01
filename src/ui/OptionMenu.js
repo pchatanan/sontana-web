@@ -28,8 +28,7 @@ const PopUpContainer = styled.div`
   transition: transform 0.2s, opacity 0.2s;
   box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.2);
   border: none;
-  margin-bottom: 1em;
-  padding: 0.6em;
+  padding: 0.6rem;
   width: 90vw;
   max-width: 400px;
 `
@@ -37,6 +36,19 @@ const PopUpContainer = styled.div`
 const MessageContainer = styled.div`
   color: black;
   text-align: center;
+`
+
+const OptionLabelContainer = styled.div`
+  &:not(:last-child) {
+    border-bottom: 1px solid lightgrey;
+  }
+  &:first-child {
+    padding-top: 0.2rem;
+  }
+  &:last-child {
+    padding-bottom: 0.2rem;
+  }
+  padding: 0.6rem;
 `
 
 const OptionMenu = props => {
@@ -48,9 +60,9 @@ const OptionMenu = props => {
     <PopUpContainer show={showOptionMenu} onClick={e => { e.stopPropagation() }}>
       <MessageContainer >
         {optionMenu.map((option, index) => {
-          return <div key={index} onClick={option.onClick}>
+          return <OptionLabelContainer key={index} onClick={option.onClick}>
             {option.label}
-          </div>
+          </OptionLabelContainer>
         })}
       </MessageContainer>
     </PopUpContainer>
